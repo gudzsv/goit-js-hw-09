@@ -1,27 +1,28 @@
 const formState = 'feedback-form-state';
 const from = document.querySelector('.feedback-form');
-const formEmail = document.querySelector('[name="email"]');
-const formMessage = document.querySelector('[name="message"]');
 
-//** get local storage data
+// get local storage data
 const localState = JSON.parse(localStorage.getItem(formState));
 if (localState) {
-  //** fill form fields from local storage
+  // fill form fields from local storage
   for (const key of Object.keys(localState)) {
     document.querySelector(`[name="${key}"]`).value = localState[key] ?? '';
   }
 }
 
-//** event to fill in form state object **//
+// event to fill in form state object **//
 from.addEventListener('input', saveToLocalStorage);
 
-//** save form form data to local storage **//
+// save form form data to local storage **//
 from.addEventListener('submit', event => {
   event.preventDefault();
 
-  if (validateForm(event)) {
-    //** according requirement of Homework 9
-    console.log('submit', localState);
+  const formData = new FormData(event.target);
+  const formDataObj = Object.fromEntries(formData.entries());
+
+  if (validateFormFields(formDataObj)) {
+    // according requirement of Homework 9
+    console.log('submit', formDataObj);
 
     localStorage.removeItem(formState);
     event.target.reset();
@@ -37,26 +38,18 @@ function saveToLocalStorage(event) {
   localStorage.setItem(formState, JSON.stringify(formStateData));
 }
 
-function validateForm() {
+function validateFormFields(formDataObj) {
   let isValid = true;
-  if (!formEmail.value) {
-    showError(formEmail);
-    isValid = false;
-  }
-  if (!formMessage.value) {
-    showError(formMessage);
-    isValid = false;
-  } else if (formMessage.value || formEmail.value) {
-    if (formEmail.value) {
-      showSuccess(formEmail);
+  for (const key in formDataObj) {
+    if (!formDataObj[key]) {
+      showError(document.querySelector(`[name="${key}"]`));
+      isValid = false;
     }
-    if (formMessage.value) {
-      showSuccess(formMessage);
-    }
-    if (formEmail.value && formMessage.value) {
-      isValid = true;
+    if (formDataObj[key]) {
+      showSuccess(document.querySelector(`[name="${key}"]`));
     }
   }
+
   return isValid;
 }
 
