@@ -6,10 +6,10 @@ const gallery = document.querySelector('.gallery');
 
 const markup = data.map(({ preview, original, description }) => {
   return `<li class="gallery-item hvr-grow">
-  <a class="gallery-link " href="${removeFirstLaseChar(original)}">
+  <a class="gallery-link " href="${original}">
     <img
       class="gallery-image"
-      src="${removeFirstLaseChar(preview)}"
+      src="${preview}"
       alt="${description}"
     />
   </a>
