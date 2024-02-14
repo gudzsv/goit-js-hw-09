@@ -32,7 +32,6 @@ function onSubmitForm(event) {
 
   const formData = new FormData(event.target);
   const formDataObj = Object.fromEntries(formData.entries());
-  console.log(formDataObj);
   if (validateFormFields(formDataObj)) {
     // according requirement of Homework 9
     console.log('submit', formDataObj);
