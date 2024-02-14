@@ -47,7 +47,6 @@ function validateFormFields(formDataObj) {
   for (const key in formDataObj) {
     if (!formDataObj[key]) {
       addBorderInputError(document.querySelector(`[name="${key}"]`));
-      console.log(document.querySelector(`[name="${key}"]`));
       isValid = false;
     }
     if (formDataObj[key]) {
