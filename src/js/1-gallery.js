@@ -22,7 +22,3 @@ new SimpleLightbox('.gallery a', {
   captionsData: 'alt',
   captionDelay: 250,
 });
-
-function removeFirstLaseChar(string) {
-  return string.slice(1, string.length - 1);
-}

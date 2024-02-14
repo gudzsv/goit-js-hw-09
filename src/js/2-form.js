@@ -1,5 +1,5 @@
 const formState = 'feedback-form-state';
-const from = document.querySelector('.feedback-form');
+const form = document.querySelector('.feedback-form');
 
 // get local storage data
 const localState = JSON.parse(localStorage.getItem(formState));
@@ -12,10 +12,10 @@ if (localState) {
 }
 
 // event to fill in form state object **//
-from.addEventListener('input', onInputSaveToLocalStorage);
+form.addEventListener('input', onInputSaveToLocalStorage);
 
 // save form form data to local storage **//
-from.addEventListener('submit', onSubmitForm);
+form.addEventListener('submit', onSubmitForm);
 
 function onInputSaveToLocalStorage(event) {
   const key = event.target.name;
@@ -32,7 +32,7 @@ function onSubmitForm(event) {
 
   const formData = new FormData(event.target);
   const formDataObj = Object.fromEntries(formData.entries());
-
+  console.log(formDataObj);
   if (validateFormFields(formDataObj)) {
     // according requirement of Homework 9
     console.log('submit', formDataObj);
@@ -47,21 +47,22 @@ function validateFormFields(formDataObj) {
   let isValid = true;
   for (const key in formDataObj) {
     if (!formDataObj[key]) {
-      addError(document.querySelector(`[name="${key}"]`));
+      addBorderInputError(document.querySelector(`[name="${key}"]`));
+      console.log(document.querySelector(`[name="${key}"]`));
       isValid = false;
     }
     if (formDataObj[key]) {
-      removeError(document.querySelector(`[name="${key}"]`));
+      removeBorderInputError(document.querySelector(`[name="${key}"]`));
     }
   }
 
   return isValid;
 }
 
-function addError(input) {
+function addBorderInputError(input) {
   input.classList.add('error');
 }
 
-function removeError(input) {
+function removeBorderInputError(input) {
   input.classList.remove('error');
 }
